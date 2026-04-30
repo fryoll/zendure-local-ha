@@ -1,5 +1,5 @@
 {
-  "git.inputValidation": "error",
+  "git.inputValidation": true,
   "git.inputValidationLength": 100,
   "git.inputValidationSubjectLength": 72,
   "git.alwaysSignOff": false,
