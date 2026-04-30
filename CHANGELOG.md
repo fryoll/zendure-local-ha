@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/fryoll/zendure-local-ha/compare/v1.2.0...v1.3.0) (2026-04-30)
+
+
+### Features
+
+* Add Zendure Local agent documentation and CLAUDE context; update README and manifest links ([f7a362d](https://github.com/fryoll/zendure-local-ha/commit/f7a362dd01ede15bc21b113dcc2bb42da080c154))
+
 ## [1.2.0](https://github.com/fryoll/zendure-local-ha/compare/v1.1.0...v1.2.0) (2026-04-30)
 
 
