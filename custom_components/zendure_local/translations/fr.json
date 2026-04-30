@@ -1,0 +1,78 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Zendure Local",
+        "description": "Entrez l'adresse IP locale de votre Zendure SolarFlow 800 Pro2.",
+        "data": {
+          "host": "Adresse IP"
+        },
+        "data_description": {
+          "host": "Adresse IP locale de l'appareil sur votre réseau (ex : 192.168.1.100)"
+        }
+      },
+      "confirm": {
+        "title": "Appareil trouvé",
+        "description": "Connexion réussie au SolarFlow 800 Pro2 (Numéro de série : **{serial_number}**). Cliquez sur Soumettre pour terminer la configuration."
+      },
+      "reconfigure": {
+        "title": "Reconfigurer Zendure Local",
+        "description": "Mettez à jour l'adresse IP de votre Zendure SolarFlow 800 Pro2.",
+        "data": {
+          "host": "Adresse IP"
+        },
+        "data_description": {
+          "host": "Nouvelle adresse IP locale de l'appareil (ex : 192.168.1.100)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Impossible de se connecter à l'appareil. Vérifiez l'adresse IP et assurez-vous que l'appareil est joignable.",
+      "invalid_host": "Format d'adresse IP invalide. Veuillez entrer une adresse IPv4 valide.",
+      "unknown": "Une erreur inattendue s'est produite. Consultez les journaux pour plus de détails."
+    },
+    "abort": {
+      "already_configured": "Cet appareil est déjà configuré.",
+      "reconfigure_successful": "Adresse IP mise à jour avec succès."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "solar_input_power": { "name": "Puissance solaire totale" },
+      "solar_power1": { "name": "Puissance solaire MPPT 1" },
+      "solar_power2": { "name": "Puissance solaire MPPT 2" },
+      "solar_power3": { "name": "Puissance solaire MPPT 3" },
+      "solar_power4": { "name": "Puissance solaire MPPT 4" },
+      "pack_input_power": { "name": "Puissance charge batterie" },
+      "output_pack_power": { "name": "Puissance décharge batterie" },
+      "output_home_power": { "name": "Puissance injection maison" },
+      "grid_input_power": { "name": "Puissance réseau entrant" },
+      "electric_level": { "name": "État de charge batterie" },
+      "pack0_soc": { "name": "État de charge pack 1" },
+      "pack1_soc": { "name": "État de charge pack 2" },
+      "solar_energy": { "name": "Énergie solaire" },
+      "pack_charge_energy": { "name": "Énergie charge batterie" },
+      "pack_discharge_energy": { "name": "Énergie décharge batterie" },
+      "output_home_energy": { "name": "Énergie injection maison" },
+      "grid_input_energy": { "name": "Énergie réseau entrant" }
+    },
+    "number": {
+      "output_limit": { "name": "Limite d'injection" },
+      "min_soc": { "name": "SOC minimum" },
+      "soc_set": { "name": "SOC maximum" }
+    },
+    "select": {
+      "ac_mode": {
+        "name": "Mode AC",
+        "state": {
+          "auto": "Auto",
+          "grid_charge": "Charge secteur",
+          "injection": "Injection"
+        }
+      }
+    },
+    "switch": {
+      "injection_enabled": { "name": "Injection activée" }
+    }
+  }
+}

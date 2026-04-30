@@ -1,0 +1,78 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Zendure Local",
+        "description": "Enter the local IP address of your Zendure SolarFlow 800 Pro2.",
+        "data": {
+          "host": "IP Address"
+        },
+        "data_description": {
+          "host": "Local IP address of the device on your network (e.g., 192.168.1.100)"
+        }
+      },
+      "confirm": {
+        "title": "Device Found",
+        "description": "Successfully connected to SolarFlow 800 Pro2 (Serial: **{serial_number}**). Click Submit to finish setup."
+      },
+      "reconfigure": {
+        "title": "Reconfigure Zendure Local",
+        "description": "Update the IP address of your Zendure SolarFlow 800 Pro2.",
+        "data": {
+          "host": "IP Address"
+        },
+        "data_description": {
+          "host": "New local IP address of the device (e.g., 192.168.1.100)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the device. Check the IP address and ensure the device is reachable.",
+      "invalid_host": "Invalid IP address format. Please enter a valid IPv4 address.",
+      "unknown": "An unexpected error occurred. Check the logs for details."
+    },
+    "abort": {
+      "already_configured": "This device is already configured.",
+      "reconfigure_successful": "IP address updated successfully."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "solar_input_power": { "name": "Solar Input Power" },
+      "solar_power1": { "name": "Solar Power MPPT 1" },
+      "solar_power2": { "name": "Solar Power MPPT 2" },
+      "solar_power3": { "name": "Solar Power MPPT 3" },
+      "solar_power4": { "name": "Solar Power MPPT 4" },
+      "pack_input_power": { "name": "Battery Charge Power" },
+      "output_pack_power": { "name": "Battery Discharge Power" },
+      "output_home_power": { "name": "Home Output Power" },
+      "grid_input_power": { "name": "Grid Input Power" },
+      "electric_level": { "name": "Battery State of Charge" },
+      "pack0_soc": { "name": "Pack 1 State of Charge" },
+      "pack1_soc": { "name": "Pack 2 State of Charge" },
+      "solar_energy": { "name": "Solar Energy" },
+      "pack_charge_energy": { "name": "Battery Charge Energy" },
+      "pack_discharge_energy": { "name": "Battery Discharge Energy" },
+      "output_home_energy": { "name": "Home Output Energy" },
+      "grid_input_energy": { "name": "Grid Input Energy" }
+    },
+    "number": {
+      "output_limit": { "name": "Output Limit" },
+      "min_soc": { "name": "Minimum State of Charge" },
+      "soc_set": { "name": "Maximum State of Charge" }
+    },
+    "select": {
+      "ac_mode": {
+        "name": "AC Mode",
+        "state": {
+          "auto": "Auto",
+          "grid_charge": "Grid Charge",
+          "injection": "Injection"
+        }
+      }
+    },
+    "switch": {
+      "injection_enabled": { "name": "Injection Enabled" }
+    }
+  }
+}
