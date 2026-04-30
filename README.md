@@ -221,6 +221,25 @@ actions:
 
 ---
 
+## Development — Commit format (release-please)
+
+This repository uses **Conventional Commits** so that release-please can generate versions and changelogs automatically.
+
+Examples:
+
+- `feat(sensor): add battery health sensor`
+- `fix(coordinator): handle timeout on local API`
+- `chore(ci): update pytest version`
+
+To install local hooks:
+
+1. `pip install -r requirements_test.txt`
+2. `pre-commit install --hook-type commit-msg`
+
+Once installed, each commit message is validated automatically.
+
+---
+
 ## Troubleshooting
 
 ### Device not found during setup

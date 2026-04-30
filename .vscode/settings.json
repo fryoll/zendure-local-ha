@@ -1,0 +1,7 @@
+{
+  "git.inputValidation": "error",
+  "git.inputValidationLength": 100,
+  "git.inputValidationSubjectLength": 72,
+  "git.alwaysSignOff": false,
+  "scm.defaultViewMode": "tree"
+}
