@@ -41,6 +41,10 @@ async def test_full_flow_creates_entry(hass, aioclient_mock):
     assert result["data"][CONF_HOST] == MOCK_HOST
     assert result["data"][CONF_SERIAL_NUMBER] == MOCK_SERIAL
 
+    # Cancel the coordinator timer before test teardown.
+    entry = hass.config_entries.async_entries(DOMAIN)[0]
+    await entry.runtime_data.async_shutdown()
+
 
 # ---------------------------------------------------------------------------
 # IP validation
@@ -132,6 +136,9 @@ async def test_reconfigure_updates_host(hass, aioclient_mock, mock_config_entry)
     assert result["type"] == FlowResultType.ABORT
     assert result["reason"] == "reconfigure_successful"
     assert mock_config_entry.data[CONF_HOST] == new_host
+
+    # Cancel the coordinator timer before test teardown.
+    await mock_config_entry.runtime_data.async_shutdown()
 
 
 async def test_reconfigure_invalid_ip_shows_error(hass, mock_config_entry):
