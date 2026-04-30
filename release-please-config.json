@@ -1,0 +1,12 @@
+{
+  ".": {
+    "release-type": "simple",
+    "extra-files": [
+      {
+        "type": "json",
+        "path": "custom_components/zendure_local/manifest.json",
+        "jsonpath": "$.version"
+      }
+    ]
+  }
+}

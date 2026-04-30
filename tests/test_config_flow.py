@@ -1,4 +1,5 @@
 """Tests for the Zendure Local config flow."""
+import aiohttp
 import pytest
 from homeassistant import config_entries
 from homeassistant.const import CONF_HOST
@@ -6,7 +7,11 @@ from homeassistant.data_entry_flow import FlowResultType
 
 from custom_components.zendure_local.const import CONF_SERIAL_NUMBER, DOMAIN
 
-from .conftest import MOCK_HOST, MOCK_REPORT_URL, MOCK_RESPONSE, MOCK_SERIAL, MOCK_WRITE_URL
+from .conftest import MOCK_HOST, MOCK_REPORT_URL, MOCK_RESPONSE, MOCK_SERIAL
+
+# enable_custom_integrations pops DATA_CUSTOM_COMPONENTS from hass.data so
+# HA re-scans hass_config_dir/custom_components/ (pointed at project root in conftest).
+pytestmark = pytest.mark.usefixtures("enable_custom_integrations")
 
 
 # ---------------------------------------------------------------------------
@@ -70,7 +75,7 @@ async def test_invalid_ip_shows_error(hass, bad_ip):
 
 
 async def test_cannot_connect_shows_error(hass, aioclient_mock):
-    aioclient_mock.get(MOCK_REPORT_URL, exc=Exception("unreachable"))
+    aioclient_mock.get(MOCK_REPORT_URL, exc=aiohttp.ClientConnectionError())
 
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": config_entries.SOURCE_USER}
@@ -108,9 +113,8 @@ async def test_already_configured_aborts(hass, aioclient_mock, mock_config_entry
 
 async def test_reconfigure_updates_host(hass, aioclient_mock, mock_config_entry):
     new_host = "192.168.1.200"
-    new_url = f"http://{new_host}/properties/report"
     mock_config_entry.add_to_hass(hass)
-    aioclient_mock.get(new_url, json=MOCK_RESPONSE)
+    aioclient_mock.get(f"http://{new_host}/properties/report", json=MOCK_RESPONSE)
 
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
@@ -130,7 +134,7 @@ async def test_reconfigure_updates_host(hass, aioclient_mock, mock_config_entry)
     assert mock_config_entry.data[CONF_HOST] == new_host
 
 
-async def test_reconfigure_invalid_ip_shows_error(hass, aioclient_mock, mock_config_entry):
+async def test_reconfigure_invalid_ip_shows_error(hass, mock_config_entry):
     mock_config_entry.add_to_hass(hass)
 
     result = await hass.config_entries.flow.async_init(
@@ -150,7 +154,7 @@ async def test_reconfigure_invalid_ip_shows_error(hass, aioclient_mock, mock_con
 async def test_reconfigure_cannot_connect_shows_error(hass, aioclient_mock, mock_config_entry):
     mock_config_entry.add_to_hass(hass)
     new_host = "192.168.1.200"
-    aioclient_mock.get(f"http://{new_host}/properties/report", exc=Exception("down"))
+    aioclient_mock.get(f"http://{new_host}/properties/report", exc=aiohttp.ClientConnectionError())
 
     result = await hass.config_entries.flow.async_init(
         DOMAIN,

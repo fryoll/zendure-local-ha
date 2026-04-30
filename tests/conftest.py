@@ -1,4 +1,5 @@
 """Shared fixtures and mock data for Zendure Local tests."""
+import pathlib
 from unittest.mock import AsyncMock, MagicMock
 
 import pytest
@@ -70,6 +71,12 @@ MOCK_NORMALIZED: dict = {
 
 
 @pytest.fixture
+def hass_config_dir() -> str:
+    """Point HA's config dir at the project root so custom_components/ is found."""
+    return str(pathlib.Path(__file__).parent.parent)
+
+
+@pytest.fixture
 def mock_config_entry() -> MockConfigEntry:
     """Config entry pre-populated with test host and serial."""
     return MockConfigEntry(
@@ -82,7 +89,7 @@ def mock_config_entry() -> MockConfigEntry:
 
 @pytest.fixture
 def mock_coordinator(mock_config_entry) -> MagicMock:
-    """Lightweight mock coordinator for entity unit tests (no hass needed)."""
+    """Lightweight mock coordinator for entity unit tests (no hass required)."""
     coord = MagicMock(spec=ZendureCoordinator)
     coord.data = MOCK_NORMALIZED.copy()
     coord.last_update_success = True

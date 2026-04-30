@@ -10,6 +10,7 @@ import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry, ConfigFlow, ConfigFlowResult
 from homeassistant.const import CONF_HOST
+from homeassistant.data_entry_flow import AbortFlow
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import API_REPORT_PATH, CONF_SERIAL_NUMBER, DOMAIN, HTTP_TIMEOUT
@@ -76,6 +77,8 @@ class ZendureConfigFlow(ConfigFlow, domain=DOMAIN):
                     await self.async_set_unique_id(sn)
                     self._abort_if_unique_id_configured()
                     return await self.async_step_confirm()
+                except AbortFlow:
+                    raise
                 except aiohttp.ClientError:
                     errors["base"] = "cannot_connect"
                 except Exception:

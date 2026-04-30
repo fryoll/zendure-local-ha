@@ -1,5 +1,5 @@
 """Tests for sensor entities: power, battery, and energy accumulation."""
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from unittest.mock import Mock, patch
 
 import pytest
@@ -263,8 +263,8 @@ def test_energy_sensor_accumulates_multiple_intervals(mock_coordinator):
     e._last_power_w = 600.0
 
     for i in range(1, 4):
-        t = datetime(2026, 1, 1, 0, 0, i * 30, tzinfo=timezone.utc)
-        e._last_time = datetime(2026, 1, 1, 0, 0, (i - 1) * 30, tzinfo=timezone.utc)
+        t = base + timedelta(seconds=i * 30)
+        e._last_time = base + timedelta(seconds=(i - 1) * 30)
         with patch(
             "custom_components.zendure_local.sensor.dt_util.utcnow", return_value=t
         ):

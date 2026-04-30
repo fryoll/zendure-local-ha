@@ -4,7 +4,7 @@ from homeassistant.helpers.update_coordinator import UpdateFailed
 
 from custom_components.zendure_local.coordinator import _normalize_data
 
-from .conftest import MOCK_HOST, MOCK_NORMALIZED, MOCK_REPORT_URL, MOCK_RESPONSE, MOCK_WRITE_URL
+from .conftest import MOCK_HOST, MOCK_NORMALIZED, MOCK_REPORT_URL, MOCK_RESPONSE, MOCK_SERIAL, MOCK_WRITE_URL
 
 
 # ---------------------------------------------------------------------------
@@ -44,8 +44,8 @@ def test_normalize_missing_pack_data():
     assert result["electricLevel"] == 50
 
 
-def test_normalize_soclevel_fallback_to_electriclevel():
-    """Device reports socLevel but not electricLevel — should be aliased."""
+def test_normalize_soclevel_aliased_to_electriclevel():
+    """Device reports socLevel but not electricLevel — aliased to electricLevel."""
     raw = {"properties": {"socLevel": 65}}
     result = _normalize_data(raw)
     assert result["electricLevel"] == 65
@@ -71,6 +71,13 @@ def test_normalize_full_response():
     result = _normalize_data(MOCK_RESPONSE)
     for key, value in MOCK_NORMALIZED.items():
         assert result[key] == value, f"Mismatch for key {key!r}"
+
+
+def test_normalize_pack_missing_soclevel_skipped():
+    """Pack entries without socLevel should not produce a key."""
+    raw = {"properties": {"packData": [{"voltage": 48}]}}
+    result = _normalize_data(raw)
+    assert "pack0_soc" not in result
 
 
 # ---------------------------------------------------------------------------
@@ -109,8 +116,9 @@ async def test_write_property_posts_correct_payload(real_coordinator, aioclient_
     await real_coordinator.async_write_property("outputLimit", 400)
 
     assert aioclient_mock.call_count == 1
-    _, call_kwargs = aioclient_mock.mock_calls[0]
-    assert call_kwargs.get("json") == {"properties": {"outputLimit": 400}}
+    # mock_calls entries are (method, url, data, headers) tuples
+    _method, _url, data, _headers = aioclient_mock.mock_calls[0]
+    assert data == {"properties": {"outputLimit": 400}}
 
 
 async def test_write_property_raises_on_http_error(real_coordinator, aioclient_mock):
@@ -120,5 +128,5 @@ async def test_write_property_raises_on_http_error(real_coordinator, aioclient_m
 
 
 async def test_coordinator_stores_serial_and_host(real_coordinator):
-    assert real_coordinator.serial_number == "ZD123456"
+    assert real_coordinator.serial_number == MOCK_SERIAL
     assert real_coordinator.host == MOCK_HOST
