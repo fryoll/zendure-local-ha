@@ -118,7 +118,10 @@ async def test_write_property_posts_correct_payload(real_coordinator, aioclient_
     assert aioclient_mock.call_count == 1
     # mock_calls entries are (method, url, data, headers) tuples
     _method, _url, data, _headers = aioclient_mock.mock_calls[0]
-    assert data == {"properties": {"outputLimit": 400}}
+    assert data == {
+        "sn": MOCK_SERIAL,
+        "properties": {"outputLimit": 400},
+    }
 
 
 async def test_write_property_raises_on_http_error(real_coordinator, aioclient_mock):

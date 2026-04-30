@@ -1,6 +1,7 @@
 """Data update coordinator for the Zendure Local integration."""
 from __future__ import annotations
 
+import asyncio
 import logging
 from datetime import timedelta
 
@@ -63,10 +64,17 @@ class ZendureCoordinator(DataUpdateCoordinator[dict]):
         return _normalize_data(raw)
 
     async def async_write_property(self, key: str, value: int | float) -> None:
-        """POST a single property update to the device."""
+        """POST a single property update to the device.
+
+        The device may acknowledge a write before the new value is visible on
+        /properties/report, so we wait briefly to avoid an immediate stale refresh.
+        """
         session = async_get_clientsession(self.hass)
         url = f"http://{self.host}{API_WRITE_PATH}"
-        payload = {"properties": {key: value}}
+        payload = {
+            "sn": self.serial_number,
+            "properties": {key: value},
+        }
         try:
             async with session.post(
                 url,
@@ -74,12 +82,14 @@ class ZendureCoordinator(DataUpdateCoordinator[dict]):
                 timeout=aiohttp.ClientTimeout(total=HTTP_TIMEOUT),
             ) as response:
                 response.raise_for_status()
+            await asyncio.sleep(1)
         except aiohttp.ClientError as err:
             _LOGGER.error(
-                "Failed to write %s=%s to Zendure device at %s: %s",
+                "Failed to write %s=%s to Zendure device at %s (sn=%s): %s",
                 key,
                 value,
                 self.host,
+                self.serial_number,
                 err,
             )
             raise
