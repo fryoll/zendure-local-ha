@@ -25,8 +25,8 @@ pytest tests/test_coordinator.py
 # Single test by name
 pytest tests/test_coordinator.py::test_normalize_flattens_pack_data
 
-# With coverage report
-pytest --cov
+# With coverage report (matches the CI threshold)
+pytest --cov --cov-fail-under=95
 ```
 
 ## Commit format
