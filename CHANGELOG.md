@@ -1,5 +1,42 @@
 # Changelog
 
+## [1.3.0](https://github.com/fryoll/zendure-local-ha/compare/v1.2.0...v1.3.0) (2026-04-30)
+
+
+### Features
+
+* Add Zendure Local agent documentation and CLAUDE context; update README and manifest links ([f7a362d](https://github.com/fryoll/zendure-local-ha/commit/f7a362dd01ede15bc21b113dcc2bb42da080c154))
+* extract detect_percent_scale into shared utils module ([02a7fa3](https://github.com/fryoll/zendure-local-ha/commit/02a7fa300558d952c8ee6a368f23cff7002f30ca))
+
+
+### Bug Fixes
+
+* cancel coordinator timer on unload and in config flow tests ([f7d7b3f](https://github.com/fryoll/zendure-local-ha/commit/f7d7b3f5cf0241eb3535dd8d91f4ec21ec3df69d))
+* improve detect_percent_scale robustness and test clarity ([235391c](https://github.com/fryoll/zendure-local-ha/commit/235391c40568652e1fb00d182177e9c006c6957e))
+
+
+### Code Refactoring
+
+* replace duplicated _detect_percent_scale with shared utils.detect_percent_scale ([cc88f22](https://github.com/fryoll/zendure-local-ha/commit/cc88f22e4565ea776099ccee3aa843c54b4e6aa9))
+
+
+### Documentation
+
+* add CI, licence, and HACS badges to README ([f7c238b](https://github.com/fryoll/zendure-local-ha/commit/f7c238b5ffb5a65e5888c77014b9ab4327fbca7d))
+* add CONTRIBUTING guide ([130d94a](https://github.com/fryoll/zendure-local-ha/commit/130d94a3ed32589317d50923c5fff9ffacbd8f4c))
+* add public repo cleanup design spec ([a1a91b9](https://github.com/fryoll/zendure-local-ha/commit/a1a91b9dc9f0e2af3e7145fffe988725fbbd6b78))
+* add public repo cleanup implementation plan ([608128f](https://github.com/fryoll/zendure-local-ha/commit/608128fc9d771cc7224d2e7b443065ab6d00e487))
+* align coverage command in CONTRIBUTING with CI threshold ([279b1d7](https://github.com/fryoll/zendure-local-ha/commit/279b1d7406b1543d36738cb890afd924fefc20bf))
+
+
+### Miscellaneous
+
+* add .worktrees to .gitignore ([bb912dd](https://github.com/fryoll/zendure-local-ha/commit/bb912dd8baefdeb41f9c702e0cd8b350f445e7f0))
+* add MIT licence ([564ee38](https://github.com/fryoll/zendure-local-ha/commit/564ee38b96ba781a0e6fff662a6482ebb50cb19d))
+* **ci:** add CI workflow to run tests on push and PR ([70c31f4](https://github.com/fryoll/zendure-local-ha/commit/70c31f46205194f57f9ed7942539e9fd2ad569af))
+* **ci:** gate publish on tests passing ([354d8d6](https://github.com/fryoll/zendure-local-ha/commit/354d8d605db6a9bfbc145c66820943faa5ab60e0))
+* prepare repo for public release ([553f89f](https://github.com/fryoll/zendure-local-ha/commit/553f89f725152136b18d48a75762e3d66eba0a4d))
+
 ## [1.2.0](https://github.com/fryoll/zendure-local-ha/compare/v1.1.0...v1.2.0) (2026-04-30)
 
 
