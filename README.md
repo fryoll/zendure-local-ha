@@ -34,7 +34,7 @@ No cloud, no MQTT — pure REST HTTP polling every 30 seconds.
 1. In HA, open **HACS → Integrations**.
 2. Click the three-dot menu (top-right) → **Custom repositories**.
 3. Fill in:
-   - **Repository**: `https://github.com/TON_USERNAME/zendure-local-ha`
+   - **Repository**: `https://github.com/fryoll/zendure-local-ha`
    - **Category**: Integration
 4. Click **Add**, then close the dialog.
 5. Search for **Zendure Local** in the HACS Integrations list and click **Download**.

@@ -3,11 +3,11 @@
   "name": "Zendure Local",
   "version": "1.2.0",
   "config_flow": true,
-  "documentation": "https://github.com/TON_USERNAME/zendure-local-ha",
-  "issue_tracker": "https://github.com/TON_USERNAME/zendure-local-ha/issues",
+  "documentation": "https://github.com/fryoll/zendure-local-ha",
+  "issue_tracker": "https://github.com/fryoll/zendure-local-ha/issues",
   "dependencies": [],
   "codeowners": [
-    "@TON_USERNAME"
+    "@fryoll"
   ],
   "iot_class": "local_polling",
   "requirements": [],
