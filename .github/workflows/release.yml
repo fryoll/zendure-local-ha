@@ -35,7 +35,7 @@ jobs:
       - name: Create HACS release zip
         run: |
           mkdir -p dist
-          zip -r dist/zendure_local.zip custom_components/zendure_local/
+          zip -r dist/zendure_local.zip custom_components/zendure_local/ -x '*/__pycache__/*' '*.pyc' '*.pyo'
 
       - name: Upload zip to GitHub Release
         uses: softprops/action-gh-release@v2
