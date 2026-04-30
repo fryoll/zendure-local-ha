@@ -1,12 +1,14 @@
 {
   "domain": "zendure_local",
   "name": "Zendure Local",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "config_flow": true,
   "documentation": "https://github.com/TON_USERNAME/zendure-local-ha",
   "issue_tracker": "https://github.com/TON_USERNAME/zendure-local-ha/issues",
   "dependencies": [],
-  "codeowners": ["@TON_USERNAME"],
+  "codeowners": [
+    "@TON_USERNAME"
+  ],
   "iot_class": "local_polling",
   "requirements": [],
   "homeassistant": "2026.4.0"
