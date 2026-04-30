@@ -21,21 +21,11 @@ from homeassistant.util import dt as dt_util
 
 from .coordinator import ZendureCoordinator
 from .entity import ZendureBaseEntity
+from .utils import detect_percent_scale
 
 _LOGGER = logging.getLogger(__name__)
 
 type StateType = float | int | str | None
-
-
-def _detect_percent_scale(data: dict, keys: tuple[str, ...]) -> int:
-    """Detect whether the selected percent-like values are reported as x1, x10, or x100."""
-    raw_values = [data.get(key) for key in keys if data.get(key) is not None]
-
-    if any(float(value) > 1000 for value in raw_values):
-        return 100
-    if any(float(value) > 100 for value in raw_values):
-        return 10
-    return 1
 
 
 def _normalize_percent_value(
@@ -44,7 +34,7 @@ def _normalize_percent_value(
     """Normalize a raw percent-like value to the 0-100 HA range."""
     if value is None:
         return None
-    scale = _detect_percent_scale(data, keys)
+    scale = detect_percent_scale(data, keys)
     if scale > 1:
         return float(value) / scale
     return value
