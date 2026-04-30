@@ -17,19 +17,9 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .coordinator import ZendureCoordinator
 from .entity import ZendureBaseEntity
+from .utils import detect_percent_scale
 
 _LOGGER = logging.getLogger(__name__)
-
-
-def _detect_percent_scale(data: dict, keys: tuple[str, ...]) -> int:
-    """Detect whether the selected percent-like values are reported as x1, x10, or x100."""
-    raw_values = [data.get(key) for key in keys if data.get(key) is not None]
-
-    if any(float(value) > 1000 for value in raw_values):
-        return 100
-    if any(float(value) > 100 for value in raw_values):
-        return 10
-    return 1
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -127,7 +117,7 @@ class ZendureNumber(ZendureBaseEntity, NumberEntity):
         """Return the currently detected scale for percent-like values."""
         if self.entity_description.device_scale <= 1:
             return 1
-        return _detect_percent_scale(
+        return detect_percent_scale(
             self.coordinator.data or {},
             ("minSoc", "socSet"),
         )

@@ -1,5 +1,9 @@
 # Zendure Local — Home Assistant Integration
 
+[![CI](https://github.com/fryoll/zendure-local-ha/actions/workflows/ci.yml/badge.svg)](https://github.com/fryoll/zendure-local-ha/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz)
+
 100 % local integration for the **Zendure SolarFlow 800 Pro2** (and compatible hub-based devices).  
 No cloud, no MQTT — pure REST HTTP polling every 30 seconds.
 

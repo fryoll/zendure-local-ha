@@ -1,6 +1,7 @@
 """Tests for the Zendure Local config flow."""
 import aiohttp
 import pytest
+from unittest.mock import AsyncMock, patch
 from homeassistant import config_entries
 from homeassistant.const import CONF_HOST
 from homeassistant.data_entry_flow import FlowResultType
@@ -34,9 +35,13 @@ async def test_full_flow_creates_entry(hass, aioclient_mock):
     assert result["type"] == FlowResultType.FORM
     assert result["step_id"] == "confirm"
 
-    result = await hass.config_entries.flow.async_configure(
-        result["flow_id"], user_input={}
-    )
+    with patch(
+        "custom_components.zendure_local.coordinator.ZendureCoordinator.async_config_entry_first_refresh",
+        new=AsyncMock(),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], user_input={}
+        )
     assert result["type"] == FlowResultType.CREATE_ENTRY
     assert result["data"][CONF_HOST] == MOCK_HOST
     assert result["data"][CONF_SERIAL_NUMBER] == MOCK_SERIAL
@@ -126,9 +131,13 @@ async def test_reconfigure_updates_host(hass, aioclient_mock, mock_config_entry)
     assert result["type"] == FlowResultType.FORM
     assert result["step_id"] == "reconfigure"
 
-    result = await hass.config_entries.flow.async_configure(
-        result["flow_id"], user_input={CONF_HOST: new_host}
-    )
+    with patch(
+        "custom_components.zendure_local.coordinator.ZendureCoordinator.async_config_entry_first_refresh",
+        new=AsyncMock(),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], user_input={CONF_HOST: new_host}
+        )
     assert result["type"] == FlowResultType.ABORT
     assert result["reason"] == "reconfigure_successful"
     assert mock_config_entry.data[CONF_HOST] == new_host
