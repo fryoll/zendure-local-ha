@@ -46,7 +46,7 @@ def test_solar_mppt_values(mock_coordinator):
 
 def test_pack_input_power(mock_coordinator):
     s = _sensor(mock_coordinator, POWER_SENSORS[5])  # pack_input_power
-    assert s.native_value == 200
+    assert s.native_value == 0
 
 
 def test_output_home_power(mock_coordinator):

@@ -112,7 +112,7 @@ POWER_SENSORS: tuple[ZendureSensorDescription, ...] = (
     ZendureSensorDescription(
         key="pack_input_power",
         translation_key="pack_input_power",
-        value_key="packInputPower",
+        value_key="outputPackPower",
         device_class=SensorDeviceClass.POWER,
         state_class=SensorStateClass.MEASUREMENT,
         native_unit_of_measurement=UnitOfPower.WATT,
@@ -121,7 +121,7 @@ POWER_SENSORS: tuple[ZendureSensorDescription, ...] = (
     ZendureSensorDescription(
         key="output_pack_power",
         translation_key="output_pack_power",
-        value_key="outputPackPower",
+        value_key="packInputPower",
         device_class=SensorDeviceClass.POWER,
         state_class=SensorStateClass.MEASUREMENT,
         native_unit_of_measurement=UnitOfPower.WATT,
@@ -201,12 +201,12 @@ ENERGY_SENSORS: tuple[EnergySensorConfig, ...] = (
     EnergySensorConfig(
         key="pack_charge_energy",
         translation_key="pack_charge_energy",
-        power_key="packInputPower",
+        power_key="outputPackPower",
     ),
     EnergySensorConfig(
         key="pack_discharge_energy",
         translation_key="pack_discharge_energy",
-        power_key="outputPackPower",
+        power_key="packInputPower",
     ),
     EnergySensorConfig(
         key="output_home_energy",
