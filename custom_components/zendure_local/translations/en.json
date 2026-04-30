@@ -58,6 +58,7 @@
     },
     "number": {
       "output_limit": { "name": "Output Limit" },
+      "input_limit": { "name": "Charge Power Limit" },
       "min_soc": { "name": "Minimum State of Charge" },
       "soc_set": { "name": "Maximum State of Charge" }
     },
@@ -70,9 +71,6 @@
           "injection": "Injection"
         }
       }
-    },
-    "switch": {
-      "injection_enabled": { "name": "Injection Enabled" }
     }
   }
 }

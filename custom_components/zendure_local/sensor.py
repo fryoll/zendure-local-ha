@@ -27,6 +27,29 @@ _LOGGER = logging.getLogger(__name__)
 type StateType = float | int | str | None
 
 
+def _detect_percent_scale(data: dict, keys: tuple[str, ...]) -> int:
+    """Detect whether the selected percent-like values are reported as x1, x10, or x100."""
+    raw_values = [data.get(key) for key in keys if data.get(key) is not None]
+
+    if any(float(value) > 1000 for value in raw_values):
+        return 100
+    if any(float(value) > 100 for value in raw_values):
+        return 10
+    return 1
+
+
+def _normalize_percent_value(
+    data: dict, value: StateType, keys: tuple[str, ...]
+) -> StateType:
+    """Normalize a raw percent-like value to the 0-100 HA range."""
+    if value is None:
+        return None
+    scale = _detect_percent_scale(data, keys)
+    if scale > 1:
+        return float(value) / scale
+    return value
+
+
 # ---------------------------------------------------------------------------
 # Sensor descriptions
 # ---------------------------------------------------------------------------
@@ -130,9 +153,9 @@ BATTERY_SENSORS: tuple[ZendureSensorDescription, ...] = (
         translation_key="electric_level",
         # Device may use electricLevel or socLevel; prefer electricLevel
         value_fn=lambda d: (
-            d.get("electricLevel")
+            _normalize_percent_value(d, d.get("electricLevel"), ("electricLevel", "socLevel"))
             if d.get("electricLevel") is not None
-            else d.get("socLevel")
+            else _normalize_percent_value(d, d.get("socLevel"), ("electricLevel", "socLevel"))
         ),
         device_class=SensorDeviceClass.BATTERY,
         state_class=SensorStateClass.MEASUREMENT,
@@ -142,7 +165,7 @@ BATTERY_SENSORS: tuple[ZendureSensorDescription, ...] = (
     ZendureSensorDescription(
         key="pack0_soc",
         translation_key="pack0_soc",
-        value_key="pack0_soc",
+        value_fn=lambda d: _normalize_percent_value(d, d.get("pack0_soc"), ("pack0_soc",)),
         device_class=SensorDeviceClass.BATTERY,
         state_class=SensorStateClass.MEASUREMENT,
         native_unit_of_measurement=PERCENTAGE,
@@ -151,7 +174,7 @@ BATTERY_SENSORS: tuple[ZendureSensorDescription, ...] = (
     ZendureSensorDescription(
         key="pack1_soc",
         translation_key="pack1_soc",
-        value_key="pack1_soc",
+        value_fn=lambda d: _normalize_percent_value(d, d.get("pack1_soc"), ("pack1_soc",)),
         device_class=SensorDeviceClass.BATTERY,
         state_class=SensorStateClass.MEASUREMENT,
         native_unit_of_measurement=PERCENTAGE,

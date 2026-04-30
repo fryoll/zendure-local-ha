@@ -1,4 +1,4 @@
-"""Tests for number entities: outputLimit, minSoc, socSet."""
+"""Tests for number entities: outputLimit, inputLimit, minSoc, socSet."""
 import pytest
 
 from custom_components.zendure_local.number import NUMBER_DESCRIPTIONS, ZendureNumber
@@ -19,12 +19,16 @@ def test_output_limit_value(mock_coordinator):
     assert _number(mock_coordinator, 0).native_value == 600.0
 
 
+def test_input_limit_value(mock_coordinator):
+    assert _number(mock_coordinator, 1).native_value == 200.0
+
+
 def test_min_soc_value(mock_coordinator):
-    assert _number(mock_coordinator, 1).native_value == 10.0
+    assert _number(mock_coordinator, 2).native_value == 10.0
 
 
 def test_soc_set_value(mock_coordinator):
-    assert _number(mock_coordinator, 2).native_value == 90.0
+    assert _number(mock_coordinator, 3).native_value == 90.0
 
 
 def test_returns_none_when_coordinator_has_no_data(mock_coordinator):
@@ -58,8 +62,9 @@ def test_unavailable_when_coordinator_fails(mock_coordinator):
 
 def test_unique_ids(mock_coordinator):
     assert _number(mock_coordinator, 0).unique_id == f"{MOCK_SERIAL}_output_limit"
-    assert _number(mock_coordinator, 1).unique_id == f"{MOCK_SERIAL}_min_soc"
-    assert _number(mock_coordinator, 2).unique_id == f"{MOCK_SERIAL}_soc_set"
+    assert _number(mock_coordinator, 1).unique_id == f"{MOCK_SERIAL}_input_limit"
+    assert _number(mock_coordinator, 2).unique_id == f"{MOCK_SERIAL}_min_soc"
+    assert _number(mock_coordinator, 3).unique_id == f"{MOCK_SERIAL}_soc_set"
 
 
 # ---------------------------------------------------------------------------
@@ -75,14 +80,14 @@ def test_output_limit_range(mock_coordinator):
 
 
 def test_min_soc_range(mock_coordinator):
-    n = _number(mock_coordinator, 1)
+    n = _number(mock_coordinator, 2)
     assert n.native_min_value == 0
     assert n.native_max_value == 100
     assert n.native_step == 5
 
 
 def test_soc_set_range(mock_coordinator):
-    n = _number(mock_coordinator, 2)
+    n = _number(mock_coordinator, 3)
     assert n.native_min_value == 0
     assert n.native_max_value == 100
     assert n.native_step == 5
@@ -99,15 +104,21 @@ async def test_set_output_limit(mock_coordinator):
     mock_coordinator.async_request_refresh.assert_called_once()
 
 
+async def test_set_input_limit(mock_coordinator):
+    await _number(mock_coordinator, 1).async_set_native_value(250.0)
+    mock_coordinator.async_write_property.assert_called_once_with("inputLimit", 250)
+    mock_coordinator.async_request_refresh.assert_called_once()
+
+
 async def test_set_min_soc(mock_coordinator):
-    await _number(mock_coordinator, 1).async_set_native_value(20.0)
-    mock_coordinator.async_write_property.assert_called_once_with("minSoc", 20)
+    await _number(mock_coordinator, 2).async_set_native_value(20.0)
+    mock_coordinator.async_write_property.assert_called_once_with("minSoc", 200)
     mock_coordinator.async_request_refresh.assert_called_once()
 
 
 async def test_set_soc_set(mock_coordinator):
-    await _number(mock_coordinator, 2).async_set_native_value(85.0)
-    mock_coordinator.async_write_property.assert_called_once_with("socSet", 85)
+    await _number(mock_coordinator, 3).async_set_native_value(85.0)
+    mock_coordinator.async_write_property.assert_called_once_with("socSet", 850)
     mock_coordinator.async_request_refresh.assert_called_once()
 
 
@@ -115,3 +126,21 @@ async def test_set_value_casts_to_int(mock_coordinator):
     """Float input must be cast to int before being sent to the device."""
     await _number(mock_coordinator, 0).async_set_native_value(750.9)
     mock_coordinator.async_write_property.assert_called_once_with("outputLimit", 750)
+
+
+async def test_scaled_percent_write_falls_back_to_unscaled_firmware(mock_coordinator):
+    mock_coordinator.data = {**MOCK_NORMALIZED, "minSoc": 20, "socSet": 90}
+    await _number(mock_coordinator, 2).async_set_native_value(25.0)
+    mock_coordinator.async_write_property.assert_called_once_with("minSoc", 25)
+
+
+def test_percent_values_scaled_by_100_are_normalized(mock_coordinator):
+    mock_coordinator.data = {**MOCK_NORMALIZED, "minSoc": 1000, "socSet": 9000}
+    assert _number(mock_coordinator, 2).native_value == 10.0
+    assert _number(mock_coordinator, 3).native_value == 90.0
+
+
+async def test_scaled_by_100_percent_write_uses_detected_scale(mock_coordinator):
+    mock_coordinator.data = {**MOCK_NORMALIZED, "minSoc": 1000, "socSet": 9000}
+    await _number(mock_coordinator, 2).async_set_native_value(25.0)
+    mock_coordinator.async_write_property.assert_called_once_with("minSoc", 2500)

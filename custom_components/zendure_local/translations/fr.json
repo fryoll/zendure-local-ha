@@ -58,6 +58,7 @@
     },
     "number": {
       "output_limit": { "name": "Limite d'injection" },
+      "input_limit": { "name": "Limite de puissance de charge" },
       "min_soc": { "name": "SOC minimum" },
       "soc_set": { "name": "SOC maximum" }
     },
@@ -70,9 +71,6 @@
           "injection": "Injection"
         }
       }
-    },
-    "switch": {
-      "injection_enabled": { "name": "Injection activée" }
     }
   }
 }

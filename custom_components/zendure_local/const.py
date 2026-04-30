@@ -11,7 +11,6 @@ PLATFORMS: list[Platform] = [
     Platform.SENSOR,
     Platform.NUMBER,
     Platform.SELECT,
-    Platform.SWITCH,
 ]
 
 API_REPORT_PATH = "/properties/report"

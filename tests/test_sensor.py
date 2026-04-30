@@ -110,6 +110,18 @@ def test_battery_soc_falls_back_to_soclevel(mock_coordinator):
     assert s.native_value == 68
 
 
+def test_battery_soc_scaled_by_10_is_normalized(mock_coordinator):
+    mock_coordinator.data = {"electricLevel": 750, "minSoc": 100, "socSet": 900}
+    s = _sensor(mock_coordinator, BATTERY_SENSORS[0])
+    assert s.native_value == 75.0
+
+
+def test_battery_soc_scaled_by_100_is_normalized(mock_coordinator):
+    mock_coordinator.data = {"electricLevel": 7500, "minSoc": 1000, "socSet": 9000}
+    s = _sensor(mock_coordinator, BATTERY_SENSORS[0])
+    assert s.native_value == 75.0
+
+
 def test_battery_soc_returns_none_when_both_missing(mock_coordinator):
     mock_coordinator.data = {}
     s = _sensor(mock_coordinator, BATTERY_SENSORS[0])
@@ -119,6 +131,12 @@ def test_battery_soc_returns_none_when_both_missing(mock_coordinator):
 def test_pack0_soc_value(mock_coordinator):
     s = _sensor(mock_coordinator, BATTERY_SENSORS[1])  # pack0_soc
     assert s.native_value == 74
+
+
+def test_pack_soc_scaled_by_100_is_normalized(mock_coordinator):
+    mock_coordinator.data = {"pack0_soc": 7400, "minSoc": 1000, "socSet": 9000}
+    s = _sensor(mock_coordinator, BATTERY_SENSORS[1])
+    assert s.native_value == 74.0
 
 
 def test_pack1_soc_value(mock_coordinator):

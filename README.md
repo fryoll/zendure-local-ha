@@ -102,10 +102,10 @@ These sensors use trapezoidal integration of the power readings and are persiste
 | Entity ID | Type | Range / Options | Description |
 |-----------|------|-----------------|-------------|
 | `number.solarflow_800_pro2_output_limit` | Number | 0 – 800 W (step 10) | Injection power cap |
+| `number.solarflow_800_pro2_input_limit` | Number | 0 – 800 W (step 10) | Grid charge power cap |
 | `number.solarflow_800_pro2_minimum_state_of_charge` | Number | 0 – 100 % (step 5) | Deep-discharge protection |
 | `number.solarflow_800_pro2_maximum_state_of_charge` | Number | 0 – 100 % (step 5) | Overcharge protection |
 | `select.solarflow_800_pro2_ac_mode` | Select | Auto / Grid Charge / Injection | Operating mode |
-| `switch.solarflow_800_pro2_injection_enabled` | Switch | ON / OFF | Enable/disable injection (remembers last limit) |
 
 ---
 
@@ -140,9 +140,9 @@ actions:
       option: grid_charge
   - action: number.set_value
     target:
-      entity_id: number.solarflow_800_pro2_output_limit
+      entity_id: number.solarflow_800_pro2_input_limit
     data:
-      value: 0
+      value: 200
 ```
 
 ### 2 — Daytime injection (6 AM → 10 PM)
@@ -254,6 +254,11 @@ Once installed, each commit message is validated automatically.
 - HA polls the device every 30 seconds. If the device is unreachable, all entities (except energy sensors) become unavailable.
 - Check **Settings → System → Logs** and filter for `zendure_local` to see the specific error.
 - A coordinator error is logged as: `Cannot reach Zendure device at <IP>`.
+
+### Injection mode stays idle
+
+- Injection mode only sets the device policy. The hub may still stay idle when no solar power is available or the battery is at/below the configured minimum SOC.
+- On some firmwares, charge power is controlled by `inputLimit` while injection power is controlled by `outputLimit`; this integration exposes both as separate number entities.
 
 ### Energy sensors reset to 0 on HA restart
 
