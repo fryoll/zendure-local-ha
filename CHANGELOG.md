@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.1](https://github.com/fryoll/zendure-local-ha/compare/v1.4.0...v1.4.1) (2026-05-20)
+
+
+### Bug Fixes
+
+* handle root-level packData for battery temperatures ([72b3563](https://github.com/fryoll/zendure-local-ha/commit/72b3563c4120f33c990ede218b34edea174136c6))
+* handle root-level packData for battery temperatures ([7fa382f](https://github.com/fryoll/zendure-local-ha/commit/7fa382f1731b83026b4441c3779edf2cd66fe1ae))
+
 ## [1.4.0](https://github.com/fryoll/zendure-local-ha/compare/v1.3.0...v1.4.0) (2026-05-20)
 
 
