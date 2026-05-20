@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.0](https://github.com/fryoll/zendure-local-ha/compare/v1.4.1...v1.5.0) (2026-05-20)
+
+
+### Features
+
+* **ci:** add manual beta release workflow ([1e78b19](https://github.com/fryoll/zendure-local-ha/commit/1e78b19a406eb9561eeb6b0a0479d8ebd38ee56d))
+* **ci:** add manual beta release workflow ([1b1660f](https://github.com/fryoll/zendure-local-ha/commit/1b1660f528179b5d2868974df0e802961a112260))
+
 ## [1.4.1](https://github.com/fryoll/zendure-local-ha/compare/v1.4.0...v1.4.1) (2026-05-20)
 
 
