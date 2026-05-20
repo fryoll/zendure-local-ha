@@ -99,12 +99,15 @@ def _normalize_data(raw: dict) -> dict:
     """Flatten the raw API payload into a simple key/value dict."""
     properties: dict = raw.get("properties", raw)
     data: dict = {k: v for k, v in properties.items() if k != "packData"}
+    pack_data: list[dict] = properties.get("packData") or raw.get("packData") or []
 
     # Flatten per-pack battery data (Pro2 supports up to 2 packs)
-    for i, pack in enumerate(properties.get("packData", [])[:2]):
-        if (soc := pack.get("socLevel")) is not None:
+    for i, pack in enumerate(pack_data[:2]):
+        soc = pack.get("socLevel")
+        if soc is not None:
             data[f"pack{i}_soc"] = soc
-        if (temp := pack.get("maxTemp")) is not None:
+        temp = pack.get("maxTemp")
+        if temp is not None:
             data[f"pack{i}_temp"] = temp / 10.0
 
     # Normalise main SOC key — device may report electricLevel or socLevel
