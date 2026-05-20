@@ -90,6 +90,7 @@ def test_normalize_flattens_pack_temp():
     assert result["pack0_temp"] == 25.0
     assert result["pack1_temp"] == 26.0
 
+
 def test_normalize_pack_missing_maxtemp_skipped():
     raw = {"properties": {"packData": [{"socLevel": 74}]}}
     result = _normalize_data(raw)
@@ -108,8 +109,8 @@ def test_normalize_flattens_root_pack_data_for_soc_and_temp():
     result = _normalize_data(raw)
     assert result["pack0_soc"] == 12
     assert result["pack1_soc"] == 14
-    assert result["pack0_temp"] == 295.1
-    assert result["pack1_temp"] == 290.1
+    assert result["pack0_temp"] == 29.51
+    assert result["pack1_temp"] == 29.01
 
 
 # ---------------------------------------------------------------------------

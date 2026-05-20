@@ -25,6 +25,20 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 
+def _normalize_pack_temperature(temp: int | float) -> float:
+    """Convert raw pack temperature to Celsius.
+
+    Most firmwares expose tenths of a degree (250 -> 25.0 C), but some
+    observed payloads report hundredths (2951 -> 29.51 C). When the tenths
+    conversion would produce an impossible battery temperature, fall back to
+    hundredths.
+    """
+    temp_c = temp / 10.0
+    if abs(temp_c) > 100:
+        return temp / 100.0
+    return temp_c
+
+
 class ZendureCoordinator(DataUpdateCoordinator[dict]):
     """Coordinator that polls the Zendure device every 30 seconds."""
 
@@ -108,7 +122,7 @@ def _normalize_data(raw: dict) -> dict:
             data[f"pack{i}_soc"] = soc
         temp = pack.get("maxTemp")
         if temp is not None:
-            data[f"pack{i}_temp"] = temp / 10.0
+            data[f"pack{i}_temp"] = _normalize_pack_temperature(temp)
 
     # Normalise main SOC key — device may report electricLevel or socLevel
     if "electricLevel" not in data and "socLevel" in data:
