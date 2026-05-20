@@ -50,6 +50,8 @@
       "electric_level": { "name": "État de charge batterie" },
       "pack0_soc": { "name": "État de charge pack 1" },
       "pack1_soc": { "name": "État de charge pack 2" },
+      "pack0_temp": { "name": "Température pack 1" },
+      "pack1_temp": { "name": "Température pack 2" },
       "solar_energy": { "name": "Énergie solaire" },
       "pack_charge_energy": { "name": "Énergie charge batterie" },
       "pack_discharge_energy": { "name": "Énergie décharge batterie" },

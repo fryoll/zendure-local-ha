@@ -80,6 +80,23 @@ def test_normalize_pack_missing_soclevel_skipped():
     assert "pack0_soc" not in result
 
 
+def test_normalize_flattens_pack_temp():
+    raw = {
+        "properties": {
+            "packData": [{"maxTemp": 250}, {"maxTemp": 260}],
+        }
+    }
+    result = _normalize_data(raw)
+    assert result["pack0_temp"] == 25.0
+    assert result["pack1_temp"] == 26.0
+
+
+def test_normalize_pack_missing_maxtemp_skipped():
+    raw = {"properties": {"packData": [{"socLevel": 74}]}}
+    result = _normalize_data(raw)
+    assert "pack0_temp" not in result
+
+
 # ---------------------------------------------------------------------------
 # _async_update_data — integration tests using hass + aioclient_mock
 # ---------------------------------------------------------------------------

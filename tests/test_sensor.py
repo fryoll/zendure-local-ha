@@ -290,3 +290,22 @@ def test_energy_sensor_accumulates_multiple_intervals(mock_coordinator):
 
     expected = 3 * (600 * 30 / 3600 / 1000)
     assert e.native_value == pytest.approx(expected, rel=1e-3)
+
+
+def test_pack0_temp_value(mock_coordinator):
+    desc = next(d for d in BATTERY_SENSORS if d.key == "pack0_temp")
+    sensor = ZendureSensor(mock_coordinator, desc)
+    assert sensor.native_value == 25.0
+
+
+def test_pack1_temp_value(mock_coordinator):
+    desc = next(d for d in BATTERY_SENSORS if d.key == "pack1_temp")
+    sensor = ZendureSensor(mock_coordinator, desc)
+    assert sensor.native_value == 26.0
+
+
+def test_pack_temp_unavailable_when_key_missing(mock_coordinator):
+    mock_coordinator.data = {}
+    desc = next(d for d in BATTERY_SENSORS if d.key == "pack0_temp")
+    sensor = ZendureSensor(mock_coordinator, desc)
+    assert not sensor.available

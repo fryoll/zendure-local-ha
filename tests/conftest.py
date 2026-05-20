@@ -37,8 +37,8 @@ MOCK_PROPERTIES: dict = {
     "outputLimit": 600,
     "acMode": 2,
     "packData": [
-        {"socLevel": 74},
-        {"socLevel": 76},
+        {"socLevel": 74, "maxTemp": 250},
+        {"socLevel": 76, "maxTemp": 260},
     ],
 }
 
@@ -64,6 +64,8 @@ MOCK_NORMALIZED: dict = {
     "acMode": 2,
     "pack0_soc": 74,
     "pack1_soc": 76,
+    "pack0_temp": 25.0,
+    "pack1_temp": 26.0,
 }
 
 
