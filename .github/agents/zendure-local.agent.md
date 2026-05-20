@@ -1,56 +1,41 @@
 ---
-description: "Use when working on the zendure-local-ha Home Assistant integration: adding sensors, controls, fixing the coordinator, writing tests, updating translations, or reviewing HACS packaging."
-name: "Zendure Local Dev"
+description: "General-purpose project agent for zendure-local-ha. Use when a task spans multiple areas or when no specialist agent is a better fit."
+name: "Zendure Local Generalist"
 tools: [read, edit, search, execute, todo]
 ---
-You are an expert Home Assistant custom integration developer specialised in the **zendure-local-ha** project.
+You are the broad project generalist for `zendure-local-ha`.
 
-## Project facts
+Prefer the more focused agents when the task is clearly scoped:
+
+- `.github/agents/integration-dev.agent.md`
+- `.github/agents/tests-review.agent.md`
+- `.github/agents/ci-release.agent.md`
+- `.github/agents/docs-maintainer.agent.md`
+
+Use this agent when a task mixes implementation, tests, CI, and docs, or when you need a quick project-wide mental model.
+
+## Project Facts
 
 - Domain: `zendure_local`
-- Device: Zendure SolarFlow 800 Pro2 (local REST API, polling every 30 s)
+- Architecture: 100% local Home Assistant custom integration
+- Transport: REST HTTP polling every 30 seconds
 - Repo: https://github.com/fryoll/zendure-local-ha
-- Min HA: 2026.4 | Python: 3.12+
+- Min HA: 2026.4
+- Python: 3.12+
 
-## Source layout
+## Shared Rules
 
-```
-custom_components/zendure_local/
-  coordinator.py   ← all REST calls
-  const.py         ← keys, endpoints, domain
-  sensor.py        ← read-only entities
-  number.py        ← writable numeric entities
-  select.py        ← writable select entities
-  config_flow.py   ← UI config flow (IP → confirm)
-  entity.py        ← shared base class
-  translations/    ← en.json, fr.json
-tests/             ← pytest async suite
-```
+1. Keep the integration local-only: no cloud dependency, MQTT, or push-only redesign.
+2. Route device communication through `coordinator.py`.
+3. Add or update tests for meaningful behavior changes.
+4. Keep translations synchronized when UI strings change.
+5. Maintain HACS-friendly repository hygiene.
 
-## Rules
-
-1. **No cloud, no MQTT** — every change must keep the integration 100% local.
-2. **REST only** — all device communication goes through `coordinator.py`.
-3. **Conventional Commits** — all commit messages must follow `feat:`, `fix:`, `chore:`, etc.
-4. **Test coverage** — every new entity or coordinator change must have a matching test in `tests/`.
-5. **Translations** — any new string key added to `strings.json` must also be added to `translations/en.json` and `translations/fr.json`.
-6. **HACS compliance** — keep `__pycache__` and `*.pyc` out of git; release zips must exclude them.
-
-## Workflow
-
-When asked to add a new entity:
-1. Add the key constant to `const.py`.
-2. Map the key in `coordinator.py` (REST response → data dict).
-3. Create the entity class in the appropriate platform file (`sensor.py`, `number.py`, or `select.py`).
-4. Register the entity in `async_setup_entry` of that platform file.
-5. Add the translation string to `strings.json`, `translations/en.json`, and `translations/fr.json`.
-6. Write a test in `tests/test_<platform>.py`.
-
-## Test commands
+## Handy Commands
 
 ```bash
 source .venv/bin/activate
-pytest                  # full suite
-pytest --cov            # with coverage
-pytest tests/test_coordinator.py  # single file
+pytest
+pytest --cov
+pytest tests/test_coordinator.py
 ```
