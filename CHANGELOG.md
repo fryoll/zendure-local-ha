@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/fryoll/zendure-local-ha/compare/v1.5.0...v1.6.0) (2026-05-20)
+
+
+### Features
+
+* add agent documentation for CI, release, testing, and integration roles ([9945a0d](https://github.com/fryoll/zendure-local-ha/commit/9945a0db60b73f45eecc0ae6fa3c41248da69f61))
+
 ## [1.5.0](https://github.com/fryoll/zendure-local-ha/compare/v1.4.1...v1.5.0) (2026-05-20)
 
 
