@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.4.0](https://github.com/fryoll/zendure-local-ha/compare/v1.3.0...v1.4.0) (2026-05-20)
+
+
+### Features
+
+* **coordinator:** extract pack maxTemp into pack0_temp / pack1_temp ([8d68b3a](https://github.com/fryoll/zendure-local-ha/commit/8d68b3acdb26c7e19fcaf6838984133605a63630))
+* **sensor:** add pack0_temp and pack1_temp temperature sensors ([befed33](https://github.com/fryoll/zendure-local-ha/commit/befed3337b992287d267ea2b93d656699017b13f))
+* **translations:** add pack temperature sensor names (en + fr) ([d9c3cae](https://github.com/fryoll/zendure-local-ha/commit/d9c3caeba807a23efaf0f77ef89914134a8dd674))
+
+
+### Documentation
+
+* add battery temperature implementation plan ([ce192fa](https://github.com/fryoll/zendure-local-ha/commit/ce192faf643ece73afc42fa17ce498cf3285caf7))
+* add battery temperature sensor design spec ([4519093](https://github.com/fryoll/zendure-local-ha/commit/451909332daad616cbef56e82171cf425442d0b7))
+
 ## [1.3.0](https://github.com/fryoll/zendure-local-ha/compare/v1.2.0...v1.3.0) (2026-04-30)
 
 
