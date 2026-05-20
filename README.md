@@ -45,6 +45,16 @@ No cloud, no MQTT — pure REST HTTP polling every 30 seconds.
 6. Restart Home Assistant.
 7. Go to **Settings → Devices & Services → Add Integration** and search for **Zendure Local**.
 
+### Beta testing via HACS
+
+If you want to test a beta version published as a GitHub pre-release:
+
+1. Open the repository page in **HACS**.
+2. Enable the repository switch for **pre-releases / beta versions**.
+3. Download the latest beta update offered by HACS.
+
+Beta releases use versions like `1.3.0b1`.
+
 ---
 
 ## Configuration
