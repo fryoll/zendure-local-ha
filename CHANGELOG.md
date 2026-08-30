@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.0](https://github.com/fryoll/zendure-local-ha/compare/v1.5.0...v1.6.0) (2026-08-30)
+
+
+### Features
+
+* add agent documentation for CI, release, testing, and integration roles ([9945a0d](https://github.com/fryoll/zendure-local-ha/commit/9945a0db60b73f45eecc0ae6fa3c41248da69f61))
+* **sensor:** Add battery electrical measurements ([fd8efd9](https://github.com/fryoll/zendure-local-ha/commit/fd8efd926a7f1fbd6a99849a9929e33274b32329))
+* **sensor:** Add battery electrical measurements ([2cdef98](https://github.com/fryoll/zendure-local-ha/commit/2cdef98eb925154b7933fcd68973316c3be9aa90))
+
 ## [1.5.0](https://github.com/fryoll/zendure-local-ha/compare/v1.4.1...v1.5.0) (2026-05-20)
 
 

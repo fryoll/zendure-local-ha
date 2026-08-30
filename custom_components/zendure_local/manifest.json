@@ -1,7 +1,7 @@
 {
   "domain": "zendure_local",
   "name": "Zendure Local",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "config_flow": true,
   "documentation": "https://github.com/fryoll/zendure-local-ha",
   "issue_tracker": "https://github.com/fryoll/zendure-local-ha/issues",
