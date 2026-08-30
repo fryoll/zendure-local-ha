@@ -14,7 +14,14 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import PERCENTAGE, UnitOfEnergy, UnitOfPower, UnitOfTemperature
+from homeassistant.const import (
+    PERCENTAGE,
+    UnitOfElectricCurrent,
+    UnitOfElectricPotential,
+    UnitOfEnergy,
+    UnitOfPower,
+    UnitOfTemperature,
+)
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.util import dt as dt_util
@@ -137,6 +144,55 @@ POWER_SENSORS: tuple[ZendureSensorDescription, ...] = (
     ),
 )
 
+ELECTRICAL_SENSORS: tuple[ZendureSensorDescription, ...] = (
+    ZendureSensorDescription(
+        key="battery_voltage",
+        translation_key="battery_voltage",
+        value_key="battery_voltage",
+        device_class=SensorDeviceClass.VOLTAGE,
+        state_class=SensorStateClass.MEASUREMENT,
+        native_unit_of_measurement=UnitOfElectricPotential.VOLT,
+        suggested_display_precision=2,
+    ),
+    *(
+        ZendureSensorDescription(
+            key=f"pack{i}_voltage",
+            translation_key=f"pack{i}_voltage",
+            value_key=f"pack{i}_voltage",
+            device_class=SensorDeviceClass.VOLTAGE,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfElectricPotential.VOLT,
+            suggested_display_precision=2,
+        )
+        for i in range(2)
+    ),
+    *(
+        ZendureSensorDescription(
+            key=f"pack{i}_current",
+            translation_key=f"pack{i}_current",
+            value_key=f"pack{i}_current",
+            device_class=SensorDeviceClass.CURRENT,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfElectricCurrent.AMPERE,
+            suggested_display_precision=1,
+        )
+        for i in range(2)
+    ),
+    *(
+        ZendureSensorDescription(
+            key=f"pack{i}_power",
+            translation_key=f"pack{i}_power",
+            value_key=f"pack{i}_power",
+            device_class=SensorDeviceClass.POWER,
+            state_class=SensorStateClass.MEASUREMENT,
+            native_unit_of_measurement=UnitOfPower.WATT,
+            suggested_display_precision=0,
+        )
+        for i in range(2)
+    ),
+)
+
+
 BATTERY_SENSORS: tuple[ZendureSensorDescription, ...] = (
     ZendureSensorDescription(
         key="electric_level",
@@ -244,7 +300,7 @@ async def async_setup_entry(
 
     entities: list[SensorEntity] = [
         ZendureSensor(coordinator, desc)
-        for desc in (*POWER_SENSORS, *BATTERY_SENSORS)
+        for desc in (*POWER_SENSORS, *ELECTRICAL_SENSORS, *BATTERY_SENSORS)
     ]
     entities.extend(
         ZendureEnergySensor(coordinator, cfg) for cfg in ENERGY_SENSORS

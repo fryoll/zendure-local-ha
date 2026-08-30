@@ -31,14 +31,15 @@ MOCK_PROPERTIES: dict = {
     "outputHomePower": 250,
     "gridInputPower": 0,
     "electricLevel": 75,
+    "BatVolt": 5134,
     "socSet": 900,
     "minSoc": 100,
     "inputLimit": 200,
     "outputLimit": 600,
     "acMode": 2,
     "packData": [
-        {"socLevel": 74, "maxTemp": 250},
-        {"socLevel": 76, "maxTemp": 260},
+        {"socLevel": 74, "maxTemp": 250, "totalVol": 5110, "batcur": 134, "power": 684},
+        {"socLevel": 76, "maxTemp": 260, "totalVol": 5090, "batcur": 116, "power": 590},
     ],
 }
 
@@ -62,10 +63,17 @@ MOCK_NORMALIZED: dict = {
     "inputLimit": 200,
     "outputLimit": 600,
     "acMode": 2,
+    "battery_voltage": 51.34,
     "pack0_soc": 74,
     "pack1_soc": 76,
     "pack0_temp": 25.0,
     "pack1_temp": 26.0,
+    "pack0_voltage": 51.1,
+    "pack1_voltage": 50.9,
+    "pack0_current": 13.4,
+    "pack1_current": 11.6,
+    "pack0_power": 684,
+    "pack1_power": 590,
 }
 
 

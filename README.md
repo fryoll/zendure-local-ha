@@ -99,6 +99,18 @@ All entities are grouped under a single HA device named **SolarFlow 800 Pro2**, 
 | `sensor.solarflow_800_pro2_pack_1_state_of_charge` | Pack 1 SOC (if present) |
 | `sensor.solarflow_800_pro2_pack_2_state_of_charge` | Pack 2 SOC (if present) |
 
+### Sensors — battery electrical measurements
+
+| Entity ID | Description |
+|-----------|-------------|
+| `sensor.solarflow_800_pro2_battery_voltage` | Hub battery voltage (V) |
+| `sensor.solarflow_800_pro2_pack_1_voltage` | Pack 1 voltage (V, if present) |
+| `sensor.solarflow_800_pro2_pack_2_voltage` | Pack 2 voltage (V, if present) |
+| `sensor.solarflow_800_pro2_pack_1_current` | Pack 1 current (A, if present) |
+| `sensor.solarflow_800_pro2_pack_2_current` | Pack 2 current (A, if present) |
+| `sensor.solarflow_800_pro2_pack_1_power` | Pack 1 power (W, if present) |
+| `sensor.solarflow_800_pro2_pack_2_power` | Pack 2 power (W, if present) |
+
 ### Sensors — energy (kWh) — Energy dashboard ready
 
 These sensors use trapezoidal integration of the power readings and are persisted across HA restarts.
