@@ -100,10 +100,10 @@ def test_normalize_pack_missing_maxtemp_skipped():
 def test_normalize_flattens_root_pack_data_for_soc_and_temp():
     """Some firmwares expose packData at root level next to properties."""
     raw = {
-        "properties": {"electricLevel": 13},
+        "properties": {"electricLevel": 13, "BatVolt": 5134},
         "packData": [
-            {"socLevel": 12, "maxTemp": 2951},
-            {"socLevel": 14, "maxTemp": 2901},
+            {"socLevel": 12, "maxTemp": 2951, "totalVol": 5110, "batcur": 134, "power": 684},
+            {"socLevel": 14, "maxTemp": 2901, "totalVol": 5090, "batcur": 116, "power": 590},
         ],
     }
     result = _normalize_data(raw)
@@ -111,6 +111,13 @@ def test_normalize_flattens_root_pack_data_for_soc_and_temp():
     assert result["pack1_soc"] == 14
     assert result["pack0_temp"] == 29.51
     assert result["pack1_temp"] == 29.01
+    assert result["battery_voltage"] == 51.34
+    assert result["pack0_voltage"] == 51.1
+    assert result["pack1_voltage"] == 50.9
+    assert result["pack0_current"] == 13.4
+    assert result["pack1_current"] == 11.6
+    assert result["pack0_power"] == 684
+    assert result["pack1_power"] == 590
 
 
 # ---------------------------------------------------------------------------

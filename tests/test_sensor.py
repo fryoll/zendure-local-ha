@@ -6,6 +6,7 @@ import pytest
 
 from custom_components.zendure_local.sensor import (
     BATTERY_SENSORS,
+    ELECTRICAL_SENSORS,
     ENERGY_SENSORS,
     POWER_SENSORS,
     ZendureEnergySensor,
@@ -92,6 +93,26 @@ def test_power_sensor_unavailable_when_data_is_none(mock_coordinator):
     mock_coordinator.data = None
     s = _sensor(mock_coordinator, POWER_SENSORS[0])
     assert s.available is False
+
+
+# ---------------------------------------------------------------------------
+# Electrical sensors
+# ---------------------------------------------------------------------------
+
+
+def test_electrical_sensor_values(mock_coordinator):
+    expected_values = {
+        "battery_voltage": 51.34,
+        "pack0_voltage": 51.1,
+        "pack1_voltage": 50.9,
+        "pack0_current": 13.4,
+        "pack1_current": 11.6,
+        "pack0_power": 684,
+        "pack1_power": 590,
+    }
+
+    for description in ELECTRICAL_SENSORS:
+        assert _sensor(mock_coordinator, description).native_value == expected_values[description.key]
 
 
 # ---------------------------------------------------------------------------

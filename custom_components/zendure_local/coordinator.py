@@ -115,7 +115,13 @@ def _normalize_data(raw: dict) -> dict:
     data: dict = {k: v for k, v in properties.items() if k != "packData"}
     pack_data: list[dict] = properties.get("packData") or raw.get("packData") or []
 
-    # Flatten per-pack battery data (Pro2 supports up to 2 packs)
+    # Hub voltage is reported in hundredths of a volt (for example 5134 -> 51.34 V).
+    hub_voltage = data.get("BatVolt")
+    if isinstance(hub_voltage, int | float):
+        data["battery_voltage"] = hub_voltage / 100.0
+
+    # Flatten per-pack battery data (Pro2 supports up to 2 packs).
+    # The current firmware reports totalVol in centivolts and batcur in deciamps.
     for i, pack in enumerate(pack_data[:2]):
         soc = pack.get("socLevel")
         if soc is not None:
@@ -123,6 +129,15 @@ def _normalize_data(raw: dict) -> dict:
         temp = pack.get("maxTemp")
         if temp is not None:
             data[f"pack{i}_temp"] = _normalize_pack_temperature(temp)
+        voltage = pack.get("totalVol")
+        if isinstance(voltage, int | float):
+            data[f"pack{i}_voltage"] = voltage / 100.0
+        current = pack.get("batcur")
+        if isinstance(current, int | float):
+            data[f"pack{i}_current"] = current / 10.0
+        power = pack.get("power")
+        if isinstance(power, int | float):
+            data[f"pack{i}_power"] = power
 
     # Normalise main SOC key — device may report electricLevel or socLevel
     if "electricLevel" not in data and "socLevel" in data:
